@@ -47,8 +47,7 @@ app.get('/api/:date', (req, res) => {
   });
 });
 
-// Listen on port set in environment variable or 3000
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// Get port from environment variable
+const listener = app.listen(process.env.PORT || 3000, () => {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
