@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const path = require('path');
 
 // Enable CORS
 app.use(cors({ optionsSuccessStatus: 200 }));
@@ -9,12 +10,12 @@ app.use(cors({ optionsSuccessStatus: 200 }));
 app.use(express.static('public'));
 
 // Root endpoint
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html');
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '/views/index.html'));
 });
 
 // API endpoint for /api
-app.get('/api', (req, res) => {
+app.get('/api', function(req, res) {
   const date = new Date();
   res.json({
     unix: date.getTime(),
@@ -23,7 +24,7 @@ app.get('/api', (req, res) => {
 });
 
 // API endpoint for /api/:date
-app.get('/api/:date', (req, res) => {
+app.get('/api/:date', function(req, res) {
   let dateParam = req.params.date;
   let date;
 
@@ -48,6 +49,10 @@ app.get('/api/:date', (req, res) => {
 });
 
 // Get port from environment variable
-const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port);
+const port = process.env.PORT || 3000;
+app.listen(port, function() {
+  console.log(`Your app is listening on port ${port}`);
 });
+
+// Export the Express API
+module.exports = app;
